@@ -33,6 +33,7 @@ func init() {
 		return
 	}
 
+	mysql.RegisterTables()
 }
 
 func main() {
@@ -44,7 +45,6 @@ func main() {
 			cmd.Run,
 		},
 	}
-	mysql.RegisterTables()
 
 	app.Setup()
 	if err := app.Run(os.Args); err != nil {
