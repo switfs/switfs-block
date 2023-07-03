@@ -7,7 +7,6 @@ import (
 	"github.com/filecoin-project/lotus/api/v1api"
 	lcli "github.com/filecoin-project/lotus/cli"
 	"github.com/gin-gonic/gin"
-	"github.com/rs/cors/wrapper/gin"
 	"github.com/urfave/cli/v2"
 	"golang.org/x/xerrors"
 	"net/http"
