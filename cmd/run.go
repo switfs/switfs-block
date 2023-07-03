@@ -7,29 +7,32 @@ import (
 	"github.com/filecoin-project/lotus/api/v1api"
 	lcli "github.com/filecoin-project/lotus/cli"
 	"github.com/gin-gonic/gin"
-	"github.com/rs/cors/wrapper/gin"
+	logging "github.com/ipfs/go-log/v2"
 	"github.com/urfave/cli/v2"
 	"golang.org/x/xerrors"
 	"net/http"
 )
 
+var log = logging.Logger("cmd")
 var Run = &cli.Command{
 	Name:  "run",
 	Usage: "start sync check",
 	Action: func(ctxx *cli.Context) error {
+		r := gin.Default()
+		log.Info("start sss 1")
 		chainAPI, ncloser, err := lcli.GetFullNodeAPIV1(ctxx)
 		if err != nil {
 			return xerrors.Errorf("getting full node api: %w", err)
 		}
 		defer ncloser()
 		ctx := lcli.ReqContext(ctxx)
-
+		log.Info("start sss 23")
 		err = StartBlock(ctx, chainAPI)
 		if err != nil {
 			return err
 		}
+		log.Info("start sss4")
 
-		r := gin.Default()
 		r.GET("/ping", func(c *gin.Context) {
 			c.JSON(http.StatusOK, gin.H{
 				"message": "pong",
@@ -42,7 +45,7 @@ var Run = &cli.Command{
 }
 
 func StartBlock(ctx context.Context, chainAPI v1api.FullNode) error {
-
+	log.Info("start sss 2")
 	//	 创建一个区块同步监听器
 	listener := make(chan []*api.HeadChange)
 
