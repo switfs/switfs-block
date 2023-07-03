@@ -3,11 +3,13 @@ package service
 import (
 	"context"
 	"github.com/filecoin-project/lotus/api"
-	"github.com/filecoin-project/lotus/api/v1api"
+	"github.com/switfs/switfs-block/utils/lotus-rpc"
 )
 
-func Event_Listening(ctx context.Context, chainAPI v1api.FullNode) error {
+func Event_Listening() error {
 	//	 创建一个区块同步监听器
+	ctx := context.Background()
+
 	listener := make(chan []*api.HeadChange)
 
 	// 启动监听器
@@ -20,19 +22,21 @@ func Event_Listening(ctx context.Context, chainAPI v1api.FullNode) error {
 			}
 		}
 	}()
+
 	// 获取ChainSync API
-	sub, err := chainAPI.ChainNotify(ctx)
+	sub, err := lotus.Node.ChainNotify(ctx)
 	if err != nil {
 		panic(err)
 	}
 	// 开始监听区块同步事件
+
 	go func() {
 		for {
 			select {
 			case changes := <-sub:
 				listener <- changes
-			case <-ctx.Done():
-				return
+				//case <-ctx.Done():
+				//	return
 			}
 		}
 	}()

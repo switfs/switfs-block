@@ -1,13 +1,14 @@
 package cmd
 
 import (
-	lcli "github.com/filecoin-project/lotus/cli"
 	logging "github.com/ipfs/go-log/v2"
 	"github.com/switfs/switfs-block/service"
 	"github.com/urfave/cli/v2"
 	"golang.org/x/sync/errgroup"
-	"golang.org/x/xerrors"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 )
 
@@ -20,14 +21,8 @@ var Run = &cli.Command{
 	Usage: "start sync check",
 	Action: func(ctxx *cli.Context) error {
 
-		log.Info("start sss 1")
-		chainAPI, ncloser, err := lcli.GetFullNodeAPIV1(ctxx)
-		if err != nil {
-			return xerrors.Errorf("getting full node api: %w", err)
-		}
-		defer ncloser()
-		ctx := lcli.ReqContext(ctxx)
-		err = service.Event_Listening(ctx, chainAPI)
+		sigCh := make(chan os.Signal, 1)
+		err := service.Event_Listening()
 		if err != nil {
 			return err
 		}
@@ -36,13 +31,22 @@ var Run = &cli.Command{
 			ReadTimeout:  5 * time.Second,
 			WriteTimeout: 10 * time.Second,
 		}
+
+		signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
+
 		g.Go(func() error {
 			return server.ListenAndServe()
 		})
+
 		if err := g.Wait(); err != nil {
 			log.Error(err.Error())
 		}
+		<-sigCh
 
 		return nil
 	},
+}
+
+func BlcokRoute() {
+
 }
