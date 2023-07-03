@@ -32,6 +32,7 @@ func init() {
 		log.Error("mysql 数据初始化失败 ", err.Error())
 		return
 	}
+
 }
 
 func main() {
@@ -43,6 +44,7 @@ func main() {
 			cmd.Run,
 		},
 	}
+	mysql.RegisterTables()
 
 	app.Setup()
 	if err := app.Run(os.Args); err != nil {

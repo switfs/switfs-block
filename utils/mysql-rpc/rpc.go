@@ -3,6 +3,7 @@ package mysql
 import (
 	logging "github.com/ipfs/go-log/v2"
 	"github.com/switfs/switfs-block/config"
+	"github.com/switfs/switfs-block/models"
 	"golang.org/x/xerrors"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -31,4 +32,16 @@ func New() error {
 	sqlDB.SetConnMaxLifetime(120 * time.Second)
 	sqlDB.SetConnMaxIdleTime(60 * time.Second)
 	return nil
+}
+
+func RegisterTables() {
+	db := RPC
+	err := db.AutoMigrate(
+		models.Miner{},
+		models.BlockTotal{},
+	)
+	if err != nil {
+		log.Error(err.Error())
+		return
+	}
 }

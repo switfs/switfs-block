@@ -39,13 +39,9 @@ var Run = &cli.Command{
 		if err := g.Wait(); err != nil {
 			log.Error(err.Error())
 		}
-		signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
+		signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM) // 优雅退出结束程序
 		<-sigCh
 
 		return nil
 	},
-}
-
-func BlcokRoute() {
-
 }
