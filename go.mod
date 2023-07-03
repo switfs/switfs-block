@@ -8,6 +8,7 @@ require (
 	github.com/urfave/cli v1.22.10
 	github.com/urfave/cli/v2 v2.16.3
 )
+replace github.com/filecoin-project/filecoin-ffi => ./extern/filecoin-ffi
 
 require (
 	github.com/cpuguy83/go-md2man/v2 v2.0.2 // indirect
