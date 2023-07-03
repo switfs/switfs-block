@@ -32,8 +32,6 @@ var Run = &cli.Command{
 			WriteTimeout: 10 * time.Second,
 		}
 
-		signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
-
 		g.Go(func() error {
 			return server.ListenAndServe()
 		})
@@ -41,6 +39,7 @@ var Run = &cli.Command{
 		if err := g.Wait(); err != nil {
 			log.Error(err.Error())
 		}
+		signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
 		<-sigCh
 
 		return nil
