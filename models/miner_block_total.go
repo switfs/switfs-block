@@ -8,3 +8,7 @@ type BlockTotal struct {
 	MinerCid    string    `gorm:"miner_cid" json:"miner_cid"`
 	MinerCreate time.Time `gorm:"miner_create" json:"miner_create"`
 }
+
+func (BlockTotal) TableName() string {
+	return "miner_block_total"
+}

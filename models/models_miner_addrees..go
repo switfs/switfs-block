@@ -8,3 +8,7 @@ type Miner struct {
 	MinerCreate  time.Time `gorm:"miner_create" json:"miner_create"`
 	MinerUpdate  time.Time `gorm:"miner_update" json:"miner_update"`
 }
+
+func (Miner) TableName() string {
+	return "miner_addresses"
+}
