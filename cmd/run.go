@@ -32,7 +32,7 @@ var Run = &cli.Command{
 			return err
 		}
 		server := &http.Server{
-			Addr:         "127.0.0.1",
+			Addr:         "127.0.0.1:9871",
 			ReadTimeout:  5 * time.Second,
 			WriteTimeout: 10 * time.Second,
 		}
