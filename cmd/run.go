@@ -1,24 +1,25 @@
 package cmd
 
 import (
-	"context"
-	"fmt"
-	"github.com/filecoin-project/lotus/api"
-	"github.com/filecoin-project/lotus/api/v1api"
 	lcli "github.com/filecoin-project/lotus/cli"
-	"github.com/gin-gonic/gin"
 	logging "github.com/ipfs/go-log/v2"
+	"github.com/switfs/switfs-block/service"
 	"github.com/urfave/cli/v2"
+	"golang.org/x/sync/errgroup"
 	"golang.org/x/xerrors"
 	"net/http"
+	"time"
 )
 
-var log = logging.Logger("cmd")
+var (
+	g   errgroup.Group
+	log = logging.Logger("cmd")
+)
 var Run = &cli.Command{
 	Name:  "run",
 	Usage: "start sync check",
 	Action: func(ctxx *cli.Context) error {
-		r := gin.Default()
+
 		log.Info("start sss 1")
 		chainAPI, ncloser, err := lcli.GetFullNodeAPIV1(ctxx)
 		if err != nil {
@@ -26,54 +27,22 @@ var Run = &cli.Command{
 		}
 		defer ncloser()
 		ctx := lcli.ReqContext(ctxx)
-		log.Info("start sss 23")
-		err = StartBlock(ctx, chainAPI)
+		err = service.Event_Listening(ctx, chainAPI)
 		if err != nil {
 			return err
 		}
-		log.Info("start sss4")
-
-		r.GET("/ping", func(c *gin.Context) {
-			c.JSON(http.StatusOK, gin.H{
-				"message": "pong",
-			})
+		server := &http.Server{
+			Addr:         "127.0.0.1",
+			ReadTimeout:  5 * time.Second,
+			WriteTimeout: 10 * time.Second,
+		}
+		g.Go(func() error {
+			return server.ListenAndServe()
 		})
-		r.Run()
+		if err := g.Wait(); err != nil {
+			log.Error(err.Error())
+		}
 
 		return nil
 	},
-}
-
-func StartBlock(ctx context.Context, chainAPI v1api.FullNode) error {
-	log.Info("start sss 2")
-	//	 创建一个区块同步监听器
-	listener := make(chan []*api.HeadChange)
-
-	// 启动监听器
-	go func() {
-		for changes := range listener {
-			for _, change := range changes {
-				for _, block := range change.Val.Blocks() {
-					fmt.Println("收到区块:", block.Cid().String(), "bk ", block.Miner.String())
-				}
-			}
-		}
-	}()
-	// 获取ChainSync API
-	sub, err := chainAPI.ChainNotify(ctx)
-	if err != nil {
-		panic(err)
-	}
-	// 开始监听区块同步事件
-	go func() {
-		for {
-			select {
-			case changes := <-sub:
-				listener <- changes
-			case <-ctx.Done():
-				return
-			}
-		}
-	}()
-	return nil
 }
