@@ -36,6 +36,10 @@ func New() error {
 }
 
 func RegisterTables() {
+	if err := New(); err != nil {
+		log.Error(err.Error())
+		return
+	}
 	err := RPC.AutoMigrate(
 		new(models.Miner),
 		new(models.BlockTotal),

@@ -28,11 +28,6 @@ func init() {
 		log.Error("lotus 初始化失败  ", err.Error())
 		return
 	}
-	if err := mysql.New(); err != nil {
-		log.Error("mysql 数据初始化失败 ", err.Error())
-		return
-	}
-
 	mysql.RegisterTables()
 }
 
