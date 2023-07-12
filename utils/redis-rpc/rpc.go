@@ -1,8 +1,6 @@
 package redis
 
 import (
-	"context"
-	"fmt"
 	redis "github.com/go-redis/redis/v8"
 	logging "github.com/ipfs/go-log/v2"
 	"github.com/switfs/switfs-block/config"
@@ -22,11 +20,7 @@ func New() error {
 	})
 
 	// 使用Ping命令检查与Redis服务器的连接
-	pong, err := RdClient.Ping(context.Background()).Result()
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println("连接成功:", pong)
+
 	return nil
 	//
 	//// 存储数据

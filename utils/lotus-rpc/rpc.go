@@ -22,8 +22,5 @@ func New() error {
 		log.Errorf("connecting with lotus failed: %s", err)
 		return err
 	}
-	s, _ := Node.ChainHead(context.Background())
-	log.Debug("高度", s.Height())
-
 	return nil
 }
