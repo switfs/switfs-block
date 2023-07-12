@@ -15,9 +15,9 @@ func Event_Listening() error {
 	// 启动监听器
 	go func() {
 		for changes := range listener {
+			log.Info("高度   》》》》》》》》》》》》 ", changes[0].Val.Height)
 			for _, change := range changes {
 				for _, block := range change.Val.Blocks() {
-					log.Info("高度   》》》》》》》》》》》》 ", block.Height.String())
 					log.Info("收到区块:", block.Cid().String(), "bk ", block.Miner.String())
 				}
 			}

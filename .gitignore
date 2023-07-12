@@ -19,3 +19,7 @@
 
 # Go workspace file
 go.work
+/.idea/modules.xml
+/.idea/switfs-block.iml
+/.idea/vcs.xml
+/.idea/workspace.xml
