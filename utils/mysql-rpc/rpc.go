@@ -31,13 +31,14 @@ func New() error {
 	sqlDB.SetMaxIdleConns(128)
 	sqlDB.SetConnMaxLifetime(120 * time.Second)
 	sqlDB.SetConnMaxIdleTime(60 * time.Second)
+
 	return nil
 }
 
 func RegisterTables() {
 	err := RPC.AutoMigrate(
-		models.Miner{},
-		models.BlockTotal{},
+		new(models.Miner),
+		new(models.BlockTotal),
 	)
 
 	if err != nil {
