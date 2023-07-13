@@ -16,6 +16,23 @@ var (
 	err error
 )
 
+func init() {
+
+	if err = New(); err != nil {
+		log.Error(err.Error())
+		return
+	}
+	err = RPC.AutoMigrate(
+		new(models.Miner),
+		new(models.BlockTotal),
+	)
+
+	if err != nil {
+		log.Error(err.Error())
+		return
+	}
+}
+
 func New() error {
 	dsn := config.LotusConfig.Mysql.User + ":" + config.LotusConfig.Mysql.Pwd + "@(" + config.LotusConfig.Mysql.Host + ")/" + config.LotusConfig.Mysql.Dbname + "?parseTime=true&loc=Local&charset=utf8mb4&collation=utf8mb4_unicode_ci&readTimeout=10s&writeTimeout=10s"
 	RPC, err = gorm.Open(mysql.Open(dsn))
@@ -34,20 +51,4 @@ func New() error {
 	sqlDB.SetConnMaxIdleTime(60 * time.Second)
 
 	return nil
-}
-
-func RegisterTables() {
-	if err := New(); err != nil {
-		log.Error(err.Error())
-		return
-	}
-	err := RPC.AutoMigrate(
-		new(models.Miner),
-		new(models.BlockTotal),
-	)
-
-	if err != nil {
-		log.Error(err.Error())
-		return
-	}
 }

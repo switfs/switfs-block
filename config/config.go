@@ -1,5 +1,19 @@
 package config
 
+import (
+	"github.com/BurntSushi/toml"
+	logging "github.com/ipfs/go-log/v2"
+)
+
+var log = logging.Logger("config")
+
+func init() {
+	if _, err := toml.DecodeFile("./config.toml", &LotusConfig); err != nil {
+		log.Errorf("配置文件初始失败 %s", err.Error())
+		return
+	}
+}
+
 var LotusConfig Config
 
 type Config struct {
