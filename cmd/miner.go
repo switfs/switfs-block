@@ -10,6 +10,7 @@ var MinerIdCmd = &cli.Command{
 	Usage: "Manage miner id ",
 	Subcommands: []*cli.Command{
 		MinerAddCmd,
+		MinerDelCmd,
 	},
 }
 
@@ -34,7 +35,7 @@ var MinerAddCmd = &cli.Command{
 }
 
 var MinerDelCmd = &cli.Command{
-	Name:  "add",
+	Name:  "del",
 	Usage: "添加矿工miner Id",
 	Action: func(cctx *cli.Context) error {
 		address := cctx.Args().Get(0)
