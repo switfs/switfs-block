@@ -1,4 +1,4 @@
-package dto
+package models
 
 import (
 	logging "github.com/ipfs/go-log/v2"
@@ -6,6 +6,6 @@ import (
 )
 
 var (
-	log  = logging.Logger("dto")
+	log  = logging.Logger("modles")
 	lock sync.RWMutex
 )

@@ -2,14 +2,14 @@ package service
 
 import (
 	logging "github.com/ipfs/go-log/v2"
-	"github.com/jinzhu/gorm"
 	"golang.org/x/xerrors"
+	"gorm.io/gorm"
 	"sync"
 )
 
 var (
-	log = logging.Logger("service")
-	l   sync.Mutex
+	log  = logging.Logger("service")
+	lock sync.RWMutex
 )
 
 func closeTx(tx *gorm.DB, err *error) {

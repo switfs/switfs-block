@@ -1,10 +1,19 @@
 package cmd
 
 import (
+	"github.com/switfs/switfs-block/service"
 	"github.com/urfave/cli/v2"
 )
 
-var Miner = &cli.Command{
+var MinerIdCmd = &cli.Command{
+	Name:  "miner",
+	Usage: "Manage miner id ",
+	Subcommands: []*cli.Command{
+		MinerAddCmd,
+	},
+}
+
+var MinerAddCmd = &cli.Command{
 	Name:  "add",
 	Usage: "添加矿工miner Id",
 	Action: func(cctx *cli.Context) error {
@@ -13,7 +22,11 @@ var Miner = &cli.Command{
 			log.Error("错误矿工id")
 			return nil
 		}
-		//addes := cctx.Args().Get(0)
+		mineradd := service.NewMinerIdService()
+		if err := mineradd.Add(address); err != nil {
+			log.Error(err)
+			return err
+		}
 
 		return nil
 	},

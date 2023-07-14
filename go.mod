@@ -10,7 +10,6 @@ require (
 	github.com/filecoin-project/lotus v1.23.2
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/ipfs/go-log/v2 v2.5.1
-	github.com/jinzhu/gorm v1.9.16
 	github.com/urfave/cli/v2 v2.25.7
 	golang.org/x/sync v0.1.0
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2

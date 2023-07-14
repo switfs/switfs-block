@@ -1,8 +1,8 @@
 package dto
 
 import (
-	"github.com/jinzhu/gorm"
-	"github.com/switfs/switfs-block/server/model"
+	"github.com/switfs/switfs-block/server/models"
+	"gorm.io/gorm"
 )
 
 type BlockTotal struct {
@@ -15,6 +15,6 @@ func NewMinerBlockTotal(db *gorm.DB) *BlockTotal {
 	}
 }
 
-func (dto *BlockTotal) Create(block *model.BlockTotal) error {
+func (dto *BlockTotal) Create(block *models.Miner) error {
 	return dto.Create(block)
 }
