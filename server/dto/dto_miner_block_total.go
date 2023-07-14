@@ -23,3 +23,12 @@ func (dto *BlockTotal) Create(block *models.Miner) error {
 func (dto *BlockTotal) Delete(address string) error {
 	return dto.db.Delete(models.Miner{}, "miner_address LIKE ?", address).Error
 }
+
+func (dto *BlockTotal) List() ([]models.Miner, error) {
+	var miner []models.Miner
+	err := dto.db.Find(&miner).Error
+	if err != nil {
+		return nil, err
+	}
+	return miner, nil
+}

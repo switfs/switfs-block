@@ -44,3 +44,12 @@ func (miner MinerId) Del(addr string) (err error) {
 
 	return database.Delete(addr)
 }
+
+func (miner MinerId) List() (data []models.Miner, err error) {
+	tx := mysql.RPC.Begin()
+	defer closeTx(tx, &err)
+
+	database := dto.NewMinerBlockTotal(tx)
+
+	return database.List()
+}

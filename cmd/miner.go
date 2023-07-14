@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/switfs/switfs-block/service"
 	"github.com/urfave/cli/v2"
 )
@@ -11,6 +12,7 @@ var MinerIdCmd = &cli.Command{
 	Subcommands: []*cli.Command{
 		MinerAddCmd,
 		MinerDelCmd,
+		MinerListCmd,
 	},
 }
 
@@ -49,6 +51,27 @@ var MinerDelCmd = &cli.Command{
 
 			return err
 		}
+		log.Info("删除成功.......")
+		return nil
+	},
+}
+
+var MinerListCmd = &cli.Command{
+	Name:  "list",
+	Usage: "添加矿工miner Id",
+	Action: func(cctx *cli.Context) error {
+
+		mineradd := service.NewMinerIdService()
+		data, err := mineradd.List()
+		if err != nil {
+			log.Error(err)
+			return err
+		}
+
+		for k, v := range data {
+			fmt.Println("k ", k, " MinerId ", v.MinerAddress)
+		}
+
 		log.Info("删除成功.......")
 		return nil
 	},
