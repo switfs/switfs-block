@@ -5,7 +5,7 @@ Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBbGxvdyI6WyJyZWFkIiwid3JpdGUiLC
 Host = "172.16.1.26:3306"
 User = "root"
 Pwd = "123456"
-dbname = "wallet_address"
+dbname = "swifts-block"
 [Redis]
 Host = "127.0.0.1:6537"
 DbName = 0
