@@ -31,7 +31,7 @@ var MinerAddCmd = &cli.Command{
 
 			return err
 		}
-		log.Info("添加成功.......")
+		fmt.Println("添加成功.......", address)
 		return nil
 	},
 }
@@ -51,7 +51,7 @@ var MinerDelCmd = &cli.Command{
 
 			return err
 		}
-		log.Info("删除成功.......")
+		fmt.Println("删除成功.......", address)
 		return nil
 	},
 }
@@ -72,7 +72,6 @@ var MinerListCmd = &cli.Command{
 			fmt.Println("k ", k, " MinerId ", v.MinerAddress)
 		}
 
-		log.Info("删除成功.......")
 		return nil
 	},
 }
