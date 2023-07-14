@@ -19,3 +19,7 @@ func (dto *BlockTotal) Create(block *models.Miner) error {
 
 	return dto.db.Create(block).Error
 }
+
+func (dto *BlockTotal) Delete(address string) error {
+	return dto.db.Delete(address).Error
+}

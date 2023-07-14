@@ -35,3 +35,17 @@ func (miner MinerId) Add(addr string) (err error) {
 
 	return database.Create(&data)
 }
+
+func (miner MinerId) Del(addr string) (err error) {
+	tx := mysql.RPC.Begin()
+	defer closeTx(tx, &err)
+
+	database := dto.NewMinerBlockTotal(tx)
+	data := models.Miner{
+		MinerAddress: addr,
+		MinerCreate:  time.Now(),
+		MinerUpdate:  time.Now(),
+	}
+
+	return database.Create(&data)
+}

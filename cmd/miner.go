@@ -32,3 +32,23 @@ var MinerAddCmd = &cli.Command{
 		return nil
 	},
 }
+
+var MinerDelCmd = &cli.Command{
+	Name:  "add",
+	Usage: "添加矿工miner Id",
+	Action: func(cctx *cli.Context) error {
+		address := cctx.Args().Get(0)
+		if len(address) < 0 {
+			log.Error("错误矿工id")
+			return nil
+		}
+		mineradd := service.NewMinerIdService()
+		if err := mineradd.Del(address); err != nil {
+			log.Error(err)
+
+			return err
+		}
+		log.Info("添加成功.......")
+		return nil
+	},
+}
