@@ -21,5 +21,5 @@ func (dto *BlockTotal) Create(block *models.Miner) error {
 }
 
 func (dto *BlockTotal) Delete(address string) error {
-	return dto.db.Delete(address).Error
+	return dto.db.Delete(models.Miner{}, "miner_address LIKE ?", address).Error
 }
