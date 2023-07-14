@@ -25,9 +25,10 @@ var MinerAddCmd = &cli.Command{
 		mineradd := service.NewMinerIdService()
 		if err := mineradd.Add(address); err != nil {
 			log.Error(err)
+
 			return err
 		}
-
+		log.Info("添加成功.......")
 		return nil
 	},
 }
