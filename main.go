@@ -12,7 +12,6 @@ var log = logging.Logger("main")
 
 func main() {
 	lotuslog.SetupLogLevels()
-	log.Info("Start  ck  switfs  block 监听事件程序  .......")
 	app := cli.App{
 		Commands: []*cli.Command{
 			cmd.Block,

@@ -20,7 +20,7 @@ var Run = &cli.Command{
 	Name:  "run",
 	Usage: "start sync check",
 	Action: func(ctxx *cli.Context) error {
-
+		log.Info("Start  ck  swifts  block   .......")
 		sigCh := make(chan os.Signal, 1)
 		err := service.Event_Listening()
 		if err != nil {
