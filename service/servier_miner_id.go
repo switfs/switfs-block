@@ -23,9 +23,8 @@ func NewMinerIdService() *MinerId {
 }
 
 func (miner MinerId) Add(addr string) (err error) {
-	tx := mysql.RPC.Begin()
-	defer closeTx(tx, &err)
-	database := dto.NewMinerBlockTotal(tx)
+
+	database := dto.NewMinerBlockTotal(mysql.RPC)
 	data := models.Miner{
 		MinerAddress: addr,
 		MinerCreate:  time.Now(),
