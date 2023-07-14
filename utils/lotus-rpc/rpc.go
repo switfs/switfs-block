@@ -15,13 +15,6 @@ var (
 	Node v1api.FullNodeStruct
 )
 
-func init() {
-	if err := New(); err != nil {
-		log.Errorf("lotus cconnecting do %s ", err.Error())
-		return
-	}
-}
-
 func New() error {
 	headers := http.Header{"Authorization": []string{"Bearer " + config.LotusConfig.Lotus.Token}}
 	_, err := jsonrpc.NewMergeClient(context.Background(), "ws://"+config.LotusConfig.Lotus.Host+"/rpc/v0", "Filecoin", []interface{}{&Node.Internal, &Node.CommonStruct.Internal}, headers)

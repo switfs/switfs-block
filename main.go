@@ -6,6 +6,8 @@ import (
 	logging "github.com/ipfs/go-log/v2"
 	"github.com/switfs/switfs-block/cmd"
 	"github.com/switfs/switfs-block/config"
+	"github.com/switfs/switfs-block/utils/lotus-rpc"
+	"github.com/switfs/switfs-block/utils/redis-rpc"
 	"github.com/urfave/cli/v2"
 	"os"
 )
@@ -17,6 +19,15 @@ func init() {
 		log.Errorf("配置文件初始失败 %s", err.Error())
 		return
 	}
+	if err := lotus.New(); err != nil {
+		log.Errorf("lotus cconnecting do %s ", err.Error())
+		return
+	}
+	if err := redis.New(); err != nil {
+		log.Errorf("redist error %s", err.Error())
+		return
+	}
+
 }
 
 func main() {
