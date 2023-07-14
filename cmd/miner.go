@@ -49,7 +49,7 @@ var MinerDelCmd = &cli.Command{
 
 			return err
 		}
-		log.Info("添加成功.......")
+		log.Info("删除成功.......")
 		return nil
 	},
 }

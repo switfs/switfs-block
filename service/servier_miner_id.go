@@ -41,11 +41,6 @@ func (miner MinerId) Del(addr string) (err error) {
 	defer closeTx(tx, &err)
 
 	database := dto.NewMinerBlockTotal(tx)
-	data := models.Miner{
-		MinerAddress: addr,
-		MinerCreate:  time.Now(),
-		MinerUpdate:  time.Now(),
-	}
 
-	return database.Create(&data)
+	return database.Delete(addr)
 }
