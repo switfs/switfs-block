@@ -69,7 +69,7 @@ var MinerListCmd = &cli.Command{
 		}
 
 		for k, v := range data {
-			fmt.Println("k ", k, " MinerId ", v.MinerAddress)
+			fmt.Println(k, " MinerId ", v.MinerAddress)
 		}
 
 		return nil
