@@ -13,6 +13,7 @@ var Miner = &cli.Command{
 			log.Error("错误矿工id")
 			return nil
 		}
+		//addes := cctx.Args().Get(0)
 
 		return nil
 	},

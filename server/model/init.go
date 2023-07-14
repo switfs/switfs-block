@@ -1,4 +1,4 @@
-package models
+package model
 
 import (
 	logging "github.com/ipfs/go-log/v2"
