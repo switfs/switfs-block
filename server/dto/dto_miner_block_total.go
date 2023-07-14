@@ -16,6 +16,6 @@ func NewMinerBlockTotal(db *gorm.DB) *BlockTotal {
 }
 
 func (dto *BlockTotal) Create(block *models.Miner) error {
-	log.Info("插入数据")
+	log.Info("插入数据", block.MinerAddress)
 	return dto.Create(block)
 }
