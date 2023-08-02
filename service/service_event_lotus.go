@@ -7,6 +7,7 @@ import (
 	"github.com/filecoin-project/lotus/api"
 	"github.com/ipfs/go-cid"
 	"github.com/switfs/switfs-block/utils/lotus-rpc"
+	"time"
 )
 
 func Event_Listening() error {
@@ -35,6 +36,7 @@ func Event_Listening() error {
 		for {
 			select {
 			case data2 := <-data:
+				time.Sleep(time.Millisecond * 5)
 				for s, t := range data2 {
 					fmt.Println(s, "   ", t)
 				}
