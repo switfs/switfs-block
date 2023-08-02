@@ -9,6 +9,7 @@ require (
 	github.com/filecoin-project/go-jsonrpc v0.2.3
 	github.com/filecoin-project/lotus v1.23.2
 	github.com/go-redis/redis/v8 v8.11.5
+	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/ipfs/go-log/v2 v2.5.1
 	github.com/urfave/cli/v2 v2.25.7
 	golang.org/x/sync v0.1.0
