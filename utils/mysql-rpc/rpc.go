@@ -18,11 +18,7 @@ var (
 
 func init() {
 
-	if err = New(); err != nil {
-		log.Error(err.Error())
-		return
-	}
-	err = RPC.AutoMigrate(
+	err := RPC.AutoMigrate(
 		new(models2.Miner),
 		new(models2.BlockTotal),
 	)

@@ -11,13 +11,6 @@ var (
 	RdClient *redis.Client
 )
 
-func init() {
-	if err := New(); err != nil {
-		log.Errorf("redist error %s", err.Error())
-		return
-	}
-}
-
 func New() error {
 	// 创建Redis客户端
 	RdClient = redis.NewClient(&redis.Options{
