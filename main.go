@@ -24,11 +24,8 @@ func init() {
 		log.Errorf("lotus cconnecting do %s ", err.Error())
 		return
 	}
+	mysql.Init()
 
-	if err := mysql.New(); err != nil {
-		log.Error(err.Error())
-		return
-	}
 	if err := redis.New(); err != nil {
 		log.Errorf("redist error %s", err.Error())
 		return
