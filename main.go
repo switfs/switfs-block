@@ -20,11 +20,13 @@ func init() {
 		log.Errorf("配置文件初始失败 %s", err.Error())
 		return
 	}
+	
 	if err := lotus.New(); err != nil {
 		log.Errorf("lotus cconnecting do %s ", err.Error())
 		return
 	}
-	mysql.Init()
+
+	mysql.InitNew()
 
 	if err := redis.New(); err != nil {
 		log.Errorf("redist error %s", err.Error())
