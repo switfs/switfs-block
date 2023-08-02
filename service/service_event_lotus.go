@@ -36,7 +36,7 @@ func Event_Listening() error {
 		for {
 			select {
 			case data2 := <-data:
-				time.Sleep(time.Second * 5)
+				time.Sleep(time.Second * 10)
 				for s, t := range data2 {
 					fmt.Println(s, "   ", t)
 				}
