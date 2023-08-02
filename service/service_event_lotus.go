@@ -14,22 +14,34 @@ func Event_Listening() error {
 	ctx := context.Background()
 
 	listener := make(chan []*api.HeadChange)
-	var data map[cid.Cid]address.Address
+	data := make(chan map[cid.Cid]address.Address)
 
 	// 启动监听器
 	go func() {
 		for changes := range listener {
 			log.Info("高度   》》》》》》》》》》》》 ", changes[0].Val.Height().String())
-			data = make(map[cid.Cid]address.Address)
+			data1 := make(map[cid.Cid]address.Address)
 			for _, change := range changes {
 				for _, block := range change.Val.Blocks() {
 					log.Info("收到区块:", block.Cid().String(), "bk ", block.Miner.String())
-					data[block.Cid()] = block.Miner
+					data1[block.Cid()] = block.Miner
 				}
 			}
+			data <- data1
 		}
-		for s, v := range data {
-			fmt.Println(s, "   ", v)
+	}()
+
+	go func() {
+		for {
+			select {
+			case data2 := <-data:
+				for s, t := range data2 {
+					fmt.Println(s, "   ", t)
+				}
+			case <-ctx.Done():
+				return
+			}
+
 		}
 	}()
 
