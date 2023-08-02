@@ -27,9 +27,9 @@ func Event_Listening() error {
 					data[block.Cid()] = block.Miner
 				}
 			}
-			for s, v := range data {
-				fmt.Println(s, "   ", v)
-			}
+		}
+		for s, v := range data {
+			fmt.Println(s, "   ", v)
 		}
 	}()
 
