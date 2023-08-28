@@ -1,6 +1,9 @@
 package service
 
-import "github.com/switfs/switfs-block/utils/mysql-rpc"
+import (
+	"github.com/switfs/switfs-block/utils/mysql-rpc"
+	"time"
+)
 
 func MinerId() (reust []string, err error) {
 	sqlx := `SELECT miner  FROM venus_auth.miners t  WHERE t.open_mining=1`
@@ -20,4 +23,23 @@ func MinerUP(cid, epoch, miner string) error {
 		return err
 	}
 	return nil
+}
+
+func Start() {
+	go start()
+}
+
+func start() {
+	for {
+		st, err := MinerId()
+		if err != nil {
+			return
+		}
+		for _, v := range st {
+			Getdata("f" + v)
+			time.Sleep(time.Second * 30)
+		}
+		time.Sleep(time.Minute * 2)
+	}
+
 }
