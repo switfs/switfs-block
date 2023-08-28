@@ -75,13 +75,13 @@ func createHttpServer() {
 
 func printUsage() {
 	fmt.Println("NAME:")
-	fmt.Println("    swan-provider")
+	fmt.Println("    switfs-block")
 	fmt.Println("VERSION:")
 	fmt.Println("    " + getVersion())
 	fmt.Println("USAGE:")
-	fmt.Println("    swan-provider version")
-	fmt.Println("    swan-provider daemon")
-	fmt.Println("    swan-provider set-ask --price=xx --verified-price=xx --min-piece-size=xx --max-piece-size=xx")
+	fmt.Println("    switfs-block version")
+	fmt.Println("    switfs-block daemon")
+
 }
 
 func getVersion() string {
