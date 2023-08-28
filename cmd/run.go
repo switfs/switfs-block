@@ -1,46 +1,23 @@
 package cmd
 
 import (
-	logging "github.com/ipfs/go-log/v2"
+	"fmt"
 	"github.com/switfs/switfs-block/service"
 	"github.com/urfave/cli/v2"
-	"golang.org/x/sync/errgroup"
-	"net/http"
-	"os"
-	"os/signal"
-	"syscall"
-	"time"
 )
 
-var (
-	g   errgroup.Group
-	log = logging.Logger("cmd")
-)
-var Run = &cli.Command{
+var RUN = &cli.Command{
 	Name:  "run",
-	Usage: "start sync check",
-	Action: func(ctxx *cli.Context) error {
-		log.Info("Start  ck  swifts  block   .......")
-		sigCh := make(chan os.Signal, 1)
-		err := service.Event_Listening()
+	Usage: "监控出块确认",
+	Action: func(cctx *cli.Context) error {
+
+		st, err := service.MinerId()
 		if err != nil {
 			return err
 		}
-		server := &http.Server{
-			Addr:         "127.0.0.1:9871",
-			ReadTimeout:  5 * time.Second,
-			WriteTimeout: 10 * time.Second,
+		for k, v := range st {
+			fmt.Println(k, "===", v)
 		}
-
-		g.Go(func() error {
-			return server.ListenAndServe()
-		})
-
-		if err := g.Wait(); err != nil {
-			log.Error(err.Error())
-		}
-		signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM) // 优雅退出结束程序
-		<-sigCh
 
 		return nil
 	},

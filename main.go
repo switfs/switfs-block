@@ -20,7 +20,7 @@ func init() {
 		log.Errorf("配置文件初始失败 %s", err.Error())
 		return
 	}
-	
+
 	if err := lotus.New(); err != nil {
 		log.Errorf("lotus cconnecting do %s ", err.Error())
 		return
@@ -39,9 +39,7 @@ func main() {
 	lotuslog.SetupLogLevels()
 	app := cli.App{
 		Commands: []*cli.Command{
-			cmd.Block,
-			cmd.Run,
-			cmd.MinerIdCmd,
+			cmd.RUN,
 		},
 	}
 
