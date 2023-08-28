@@ -53,8 +53,6 @@ var RUN = &cli.Command{
 func createHttpServer() {
 	//logs.GetLogger().Info("release mode:", config.GetConfig().Release)
 
-	gin.SetMode(gin.ReleaseMode)
-
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
