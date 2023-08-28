@@ -4,14 +4,13 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	logging "github.com/ipfs/go-log/v2"
-	cors "github.com/itsjamie/gin-cors"
 	"github.com/switfs/switfs-block/service"
 	"github.com/urfave/cli/v2"
+	"net/http"
 	"os"
 	"os/signal"
 
 	"syscall"
-	"time"
 )
 
 const (
@@ -57,16 +56,11 @@ func createHttpServer() {
 	gin.SetMode(gin.ReleaseMode)
 
 	r := gin.Default()
-	r.Use(cors.Middleware(cors.Config{
-		Origins:         "*",
-		Methods:         "GET, PUT, POST, DELETE",
-		RequestHeaders:  "Origin, Authorization, Content-Type",
-		ExposedHeaders:  "",
-		MaxAge:          50 * time.Second,
-		Credentials:     true,
-		ValidateHeaders: false,
-	}))
-
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "pong",
+		})
+	})
 	err := r.Run("127.0.0.1:6530")
 	if err != nil {
 		log.Fatal(err)
