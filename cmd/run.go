@@ -32,7 +32,7 @@ var RUN = &cli.Command{
 		subCmd := os.Args[1]
 		switch subCmd {
 
-		case "daemon":
+		case "run":
 			sigCh := make(chan os.Signal, 2)
 			signal.Notify(sigCh, syscall.SIGTERM, syscall.SIGINT)
 			service.Start()
@@ -80,7 +80,7 @@ func printUsage() {
 	fmt.Println("    " + getVersion())
 	fmt.Println("USAGE:")
 	fmt.Println("    switfs-block version")
-	fmt.Println("    switfs-block daemon")
+	fmt.Println("    switfs-block run")
 
 }
 
