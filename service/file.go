@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 )
 
 type Result struct {
@@ -51,10 +52,14 @@ func Getdata(addr string) {
 	if err != nil {
 		return
 	}
-	for k, v := range result.Blocks {
-		fmt.Println(k, " : ", v.Height)
-		fmt.Println(k, " : ", v.Cid)
+	for _, v := range result.Blocks {
+		height := v.Height - 1
 
+		MinerUP(v.Cid, IntToString(height), addr)
 	}
 
+}
+
+func IntToString(e int) string {
+	return strconv.Itoa(e)
 }
