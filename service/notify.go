@@ -12,9 +12,9 @@ func MinerId() (reust []string, err error) {
 	return
 }
 
-func MinerUP(epoch, miner string) error {
+func MinerUP(cid, epoch, miner string) error {
 
-	sqlx := `UPDATE venus_miner.miner_blocks SET  cid=cid, mine_state=1 WHERE parent_epoch=` + epoch + ` AND miner=` + miner + ``
+	sqlx := `UPDATE venus_miner.miner_blocks SET  cid=` + cid + `, mine_state=1 WHERE parent_epoch=` + epoch + ` AND miner=` + miner + ``
 	err := mysql.RPC.Exec(sqlx).Error
 	if err != nil {
 		return err
