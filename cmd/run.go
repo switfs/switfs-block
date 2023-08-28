@@ -39,7 +39,8 @@ var RUN = &cli.Command{
 				for _, bh := range bhs {
 					if bh.Miner == v {
 						fmt.Printf("%8d | %s | %s\n", ts.Height(), bh.Cid(), v.String())
-						err := service.MinerUP(bh.Cid().String(), ts.Height().String(), v.String())
+						height := ts.Height() - 1
+						err := service.MinerUP(bh.Cid().String(), height.String(), v.String())
 						if err != nil {
 							return err
 						}
