@@ -38,7 +38,7 @@ var RUN = &cli.Command{
 				bhs := ts.Blocks()
 				for _, bh := range bhs {
 					if bh.Miner == v {
-						fmt.Printf("%8d | %s | %s\n", ts.Height(), bh.Cid())
+						fmt.Printf("%8d | %s | %s\n", ts.Height(), bh.Cid(), v.String())
 						count--
 					} else {
 						_, _ = fmt.Fprintf(os.Stderr, "\r\x1b[0KChecking epoch %s", cliutil.EpochTime(head.Height(), bh.Height))
