@@ -20,8 +20,8 @@ var RUN = &cli.Command{
 		if err != nil {
 			return err
 		}
-		for k, v := range st {
-			fmt.Println(k, "===f", "f"+v)
+		for _, v := range st {
+			//fmt.Println(k, "===f", "f"+v)
 			addres, _ := address.NewFromString("f" + v)
 			addr = append(addr, addres)
 		}
@@ -39,6 +39,10 @@ var RUN = &cli.Command{
 				for _, bh := range bhs {
 					if bh.Miner == v {
 						fmt.Printf("%8d | %s | %s\n", ts.Height(), bh.Cid(), v.String())
+						err := service.MinerUP(ts.Height().String(), v.String())
+						if err != nil {
+							return err
+						}
 						count--
 					} else {
 						_, _ = fmt.Fprintf(os.Stderr, "\r\x1b[0KChecking epoch %s", cliutil.EpochTime(head.Height(), bh.Height))
