@@ -32,10 +32,9 @@ var RUN = &cli.Command{
 		}
 		ts := head
 		for _, v := range addr {
-
 			count := 5
 			for count > 0 {
-
+				tsk := ts.Key()
 				bhs := ts.Blocks()
 				for _, bh := range bhs {
 					if bh.Miner == v {
@@ -45,7 +44,13 @@ var RUN = &cli.Command{
 						_, _ = fmt.Fprintf(os.Stderr, "\r\x1b[0KChecking epoch %s", cliutil.EpochTime(head.Height(), bh.Height))
 					}
 				}
+				tsk = ts.Parents()
+				ts, err = lotus.Node.ChainGetTipSet(context.Background(), tsk)
+				if err != nil {
+					return err
+				}
 			}
+
 		}
 
 		return nil
