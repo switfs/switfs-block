@@ -1,6 +1,7 @@
 package service
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -43,7 +44,17 @@ func Getdata(addr string) {
 		fmt.Println("读取响应主体失败:", err)
 		return
 	}
-
+	var result Result
 	// 将响应主体内容打印到控制台
-	fmt.Println(string(body))
+
+	err = json.Unmarshal(body, &result)
+	if err != nil {
+		return
+	}
+	for k, v := range result.Blocks {
+		fmt.Println(k, " : ", v.Height)
+		fmt.Println(k, " : ", v.Cid)
+
+	}
+
 }
