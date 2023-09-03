@@ -24,7 +24,7 @@ type Result struct {
 
 func Getdata(addr string) {
 	urladd := "https://filfox.info/api/v1/address/"
-	url := fmt.Sprintf("%s/%s/blocks?pageSize=20&page=0", urladd, addr)
+	url := fmt.Sprintf("%s/%s/blocks?pageSize=100&page=0", urladd, addr)
 
 	response, err := http.Get(url)
 	if err != nil {
