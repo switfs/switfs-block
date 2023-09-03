@@ -54,8 +54,9 @@ func Getdata(addr string) {
 	}
 	for _, v := range result.Blocks {
 		height := v.Height - 1
+		Reward := NanoOrAttoToFIL(v.Reward, AttoFIL)
 
-		MinerUP(v.Cid, IntToString(height), addr)
+		MinerUP(v.Cid, IntToString(height), addr, Reward)
 	}
 
 }
