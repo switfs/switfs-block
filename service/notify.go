@@ -17,7 +17,7 @@ func MinerId() (reust []string, err error) {
 
 func MinerUP(cid, epoch, miner, Reward string) error {
 
-	sqlx := `UPDATE venus_miner.miner_blocks SET  cid= '` + cid + `', mine_state=1 , reward= '` + Reward + `'  WHERE parent_epoch=` + epoch + ` AND miner='` + miner + `'`
+	sqlx := `UPDATE venus_miner.miner_blocks SET  cid= '` + cid + `', mine_state=1 , reward= '` + Reward + `'  consuming=1  WHERE parent_epoch=` + epoch + ` AND miner='` + miner + `' AND consuming=0`
 	err := mysql.RPC.Exec(sqlx).Error
 	if err != nil {
 		return err
