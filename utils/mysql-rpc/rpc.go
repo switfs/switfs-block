@@ -1,13 +1,13 @@
 package mysql
 
 import (
+	"time"
+
 	logging "github.com/ipfs/go-log/v2"
 	"github.com/switfs/switfs-block/config"
-	models2 "github.com/switfs/switfs-block/server/models"
 	"golang.org/x/xerrors"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"time"
 )
 
 var (
@@ -22,15 +22,6 @@ func InitNew() {
 		return
 	}
 
-	err = RPC.AutoMigrate(
-		new(models2.Miner),
-		new(models2.BlockTotal),
-	)
-
-	if err != nil {
-		log.Error(err.Error())
-		return
-	}
 }
 
 func New() error {

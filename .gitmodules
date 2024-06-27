@@ -1,3 +1,0 @@
-[submodule "extern/filecoin-ffi"]
-	path = extern/filecoin-ffi
-	url = https://proxy.jeongen.com/https://github.com/filecoin-project/filecoin-ffi

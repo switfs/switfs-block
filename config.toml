@@ -1,11 +1,5 @@
-[Lotus]
-Host = "172.16.1.26:1234"
-Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBbGxvdyI6WyJyZWFkIiwid3JpdGUiLCJzaWduIiwiYWRtaW4iXX0.N9XCNSOa3fsnb5RGi6ou6NTQLTwD0C8nUzKMKYczp0Y"
 [Mysql]
-Host = "172.16.1.26:3306"
+Host = "59.36.212.37:3306"
 User = "root"
-Pwd = "123456"
-dbname = "switfs_block"
-[Redis]
-Host = "127.0.0.1:6537"
-DbName = 0
+Pwd = "8jka02kviWBfPdWQrmI"
+dbname = "venus_miner"

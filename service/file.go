@@ -1,9 +1,10 @@
 package service
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strconv"
 )
@@ -28,21 +29,26 @@ func Getdata(addr string) {
 
 	response, err := http.Get(url)
 	if err != nil {
-		fmt.Println("HTTP GET请求失败:", err)
+		log.Errorf("HTTP GET请求失败:%v", err)
 		return
 	}
-	defer response.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			log.Errorf("关闭响应体失败:%v", err)
+		}
+	}(response.Body)
 
 	// 检查响应状态码
 	if response.StatusCode != http.StatusOK {
-		fmt.Println("HTTP请求返回状态码不是200 OK:", response.Status)
+		log.Errorf("HTTP请求返回状态码不是200 OK:%v", response.Status)
 		return
 	}
 
 	// 读取响应主体
-	body, err := ioutil.ReadAll(response.Body)
+	body, err := io.ReadAll(response.Body)
 	if err != nil {
-		fmt.Println("读取响应主体失败:", err)
+		log.Error("读取响应主体失败:", err)
 		return
 	}
 	var result Result
@@ -56,11 +62,95 @@ func Getdata(addr string) {
 		height := v.Height - 1
 		Reward := NanoOrAttoToFIL(v.Reward, AttoFIL)
 
-		MinerUP(v.Cid, IntToString(height), addr, Reward)
+		err = MinerUP(v.Cid, IntToString(height), addr, Reward)
+		if err != nil {
+			log.Error(err.Error())
+			return
+		}
 	}
 
 }
 
 func IntToString(e int) string {
 	return strconv.Itoa(e)
+}
+
+func GetPostData(addr string) error {
+	url := "https://api.filutils.com/api/v2/block"
+	//{"miner":"f02942808","height":0,"pageIndex":1,"pageSize":20}
+	params := request{
+		Miner:     addr,
+		Height:    0,
+		PageIndex: 1,
+		PageSize:  10,
+	}
+
+	jsonParams, err := json.Marshal(params)
+	if err != nil {
+		log.Error("json序列化失败:", err)
+		return err
+	}
+
+	client := &http.Client{}
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonParams))
+	if err != nil {
+		log.Error("创建请求失败:", err)
+		return err
+	}
+
+	req.Header.Add("Content-Type", "application/json")
+	res, err := client.Do(req)
+	if err != nil {
+		log.Error("请求失败:", err)
+	}
+
+	body, err := io.ReadAll(res.Body)
+	if err != nil {
+		return err
+	}
+	var result data
+	err = json.Unmarshal(body, &result)
+	if err != nil {
+		log.Error(err.Error())
+		return err
+	}
+
+	for _, v := range result.Data {
+		height := v.Height - 1
+		//Reward := NanoOrAttoToFIL(v.Reward, AttoFIL)
+		err = MinerUP(v.Cid, IntToString(height), addr, v.ExactReward)
+		if err != nil {
+			log.Error(err.Error())
+			return err
+		}
+	}
+
+	return nil
+}
+
+type request struct {
+	Miner     string `json:"miner"`
+	Height    int    `json:"height"`
+	PageIndex int    `json:"pageIndex"`
+	PageSize  int    `json:"pageSize"`
+}
+
+type data struct {
+	Code      int    `json:"code"`
+	Total     int    `json:"total"`
+	PageIndex int    `json:"pageIndex"`
+	PageSize  int    `json:"pageSize"`
+	Message   string `json:"Message"`
+	Data      []struct {
+		Height       int    `json:"height"`
+		Cid          string `json:"cid"`
+		MineTime     string `json:"mineTime"`
+		MessageCount int    `json:"messageCount"`
+		Size         int    `json:"size"`
+		Miner        string `json:"miner"`
+		MinerTag     string `json:"minerTag"`
+		IsVerified   int    `json:"isVerified"`
+		Reward       string `json:"reward"`
+		ExactReward  string `json:"exactReward"`
+	} `json:"data"`
 }

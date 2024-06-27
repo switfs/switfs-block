@@ -2,13 +2,15 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	logging "github.com/ipfs/go-log/v2"
-	"github.com/switfs/switfs-block/service"
-	"github.com/urfave/cli/v2"
 	"net/http"
 	"os"
 	"os/signal"
+
+	"github.com/gin-gonic/gin"
+	logging "github.com/ipfs/go-log/v2"
+	"github.com/switfs/switfs-block/service"
+	"github.com/switfs/switfs-block/utils/mysql-rpc"
+	"github.com/urfave/cli/v2"
 
 	"syscall"
 )
@@ -46,13 +48,16 @@ var RUN = &cli.Command{
 			printUsage()
 		}
 
+		db, _ := mysql.RPC.DB()
+
+		db.Close()
 		return nil
 	},
 }
 
 func createHttpServer() {
 	//logs.GetLogger().Info("release mode:", config.GetConfig().Release)
-
+	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
